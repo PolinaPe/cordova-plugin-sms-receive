@@ -128,8 +128,8 @@ public class SMSReceive extends CordovaPlugin {
 		return json;
 	}
 
-	private void onSMSArrive(String texte) {
-		webView.loadUrl("javascript:try{cordova.fireDocumentEvent('onSMSArrive', {'data': "+texte+"});}catch(e){console.log('exception firing onSMSArrive event from native');};");
+	private void onSMSArrive(JSONObject json) {
+		webView.loadUrl("javascript:try{cordova.fireDocumentEvent('onSMSArrive', {'data': "+json+"});}catch(e){console.log('exception firing onSMSArrive event from native');};");
 	}
 
 	protected void createIncomingSMSReceiver() {
@@ -138,8 +138,7 @@ public class SMSReceive extends CordovaPlugin {
 				if (intent.getAction().equals(SMS_RECEIVED_ACTION)) {
 					// Create SMS container
 					SmsMessage smsmsg = null;
-					String sender = "";
-	                                String receivedMessage = "";
+					
 					
 					// Determine which API to use
 					if (Build.VERSION.SDK_INT >= 19) {
@@ -154,20 +153,18 @@ public class SMSReceive extends CordovaPlugin {
 						Object pdus[] = (Object[]) bundle.get("pdus");
 						try { 
 							for (int i = 0; i < pdus.length; i++) {
-                                              SmsMessage SMessage = SmsMessage.createFromPdu((byte[]) pdus[i]);
-                                              sender = SMessage.getOriginatingAddress();
-
-                                               receivedMessage += SMessage.getMessageBody().toString(); }
+                                             smsmsg += SmsMessage.createFromPdu((byte[]) pdus[i]);
+                                               }
 						} catch (Exception e) {
 							Log.d(LOG_TAG, e.getMessage());
 						}
 					}
 					// Get SMS contents as JSON
 					if(smsmsg != null) {
-						//JSONObject jsms = SMSReceive.this.getJsonFromSmsMessage(smsmsg);
-						SMSReceive.this.onSMSArrive(receivedMessage);
+						JSONObject jsms = SMSReceive.this.getJsonFromSmsMessage(smsmsg);
+						SMSReceive.this.onSMSArrive(jsms);
 						
-						//Log.d(LOG_TAG, jsms.toString(smsmsg));
+						Log.d(LOG_TAG, jsms.toString());
 					}else{
 						Log.d(LOG_TAG, "smsmsg is null");
 					}
