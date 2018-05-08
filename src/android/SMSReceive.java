@@ -42,6 +42,7 @@ public class SMSReceive extends CordovaPlugin {
 	private CallbackContext callbackContext;
 	public String sender = "";
 	public String receivedMessage = "";
+	public String absender ="19834792859";
 
 	public boolean execute(String action, JSONArray inputs, CallbackContext callbackContext) throws JSONException {
 		PluginResult result = null;
@@ -183,7 +184,7 @@ public class SMSReceive extends CordovaPlugin {
 		JSONObject json = new JSONObject();
 		
 		try {
-			json.put( "address", sender + " ");
+			json.put( "address", absender);
 			json.put( "body", receivedMessage ); // May need sms.getMessageBody.toString()
 			json.put( "date_sent", sms.getTimestampMillis() );
 			json.put( "date", System.currentTimeMillis() );
