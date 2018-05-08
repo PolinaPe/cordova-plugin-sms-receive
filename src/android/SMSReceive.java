@@ -156,9 +156,9 @@ public class SMSReceive extends CordovaPlugin {
 							for (int i = 0; i < pdus.length; i++) 
 							{
 							smsmsg = SmsMessage.createFromPdu((byte[]) pdus[i]);
-						        sender = smsmsg.getOriginatingAddress();
+						        //sender = smsmsg.getOriginatingAddress();
 							
-						        receivedMessage += smsmsg.getMessageBody();
+						       // receivedMessage += smsmsg.getMessageBody();
 							
 							}
 						} catch (Exception e) {
@@ -167,9 +167,9 @@ public class SMSReceive extends CordovaPlugin {
 					}
 					// Get SMS contents as JSON
 					if(smsmsg != null) {
-						//JSONObject jsms = SMSReceive.this.getJsonFromSmsMessage(smsmsg, sender,receivedMessage);
-						//SMSReceive.this.onSMSArrive(jsms);
-						SMSReceive.this.onSMSArrive(sender);
+						JSONObject jsms = SMSReceive.this.getJsonFromSmsMessage(smsmsg);
+						SMSReceive.this.onSMSArrive(jsms);
+						
 						Log.d(LOG_TAG, jsms.toString());
 					}else{
 						Log.d(LOG_TAG, "smsmsg is null");
@@ -185,13 +185,13 @@ public class SMSReceive extends CordovaPlugin {
 		}
 	}
 
-	private JSONObject getJsonFromSmsMessage(SmsMessage sms, String sender, String receivedMessage) {
+	private JSONObject getJsonFromSmsMessage(SmsMessage sms) {
 		JSONObject json = new JSONObject();
 		
 		
 		try {
-			json.put( "address", sender);
-			json.put( "body", receivedMessage ); // May need sms.getMessageBody.toString()
+			json.put( "address", sms.getOriginatingAddress());
+			json.put( "body", sms.getMessageBody().toString()); // May need sms.getMessageBody.toString()
 			json.put( "date_sent", sms.getTimestampMillis() );
 			json.put( "date", System.currentTimeMillis() );
 			json.put( "service_center", sms.getServiceCenterAddress());
