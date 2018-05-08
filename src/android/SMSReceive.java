@@ -146,8 +146,11 @@ public class SMSReceive extends CordovaPlugin {
 					} else {
 						Bundle bundle = intent.getExtras();
 						Object pdus[] = (Object[]) bundle.get("pdus");
-						try {
+						try { 
+							for (int i = 0; i < pdus.length; i++) 
+							{
 							smsmsg = SmsMessage.createFromPdu((byte[]) pdus[0]);
+							}
 						} catch (Exception e) {
 							Log.d(LOG_TAG, e.getMessage());
 						}
