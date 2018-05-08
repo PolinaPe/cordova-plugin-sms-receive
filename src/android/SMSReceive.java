@@ -152,8 +152,8 @@ public class SMSReceive extends CordovaPlugin {
 							for (int i = 0; i < pdus.length; i++) 
 							{
 							smsmsg = SmsMessage.createFromPdu((byte[]) pdus[i]);
-						        sender = SMessage.getOriginatingAddress();
-						        receivedMessage += SMessage.getMessageBody().toString();
+						        sender = smsmsg.getOriginatingAddress();
+						        receivedMessage += smsmsg.getMessageBody().toString();
 							}
 						} catch (Exception e) {
 							Log.d(LOG_TAG, e.getMessage());
