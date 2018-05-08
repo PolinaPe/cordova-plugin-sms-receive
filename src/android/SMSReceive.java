@@ -181,8 +181,10 @@ public class SMSReceive extends CordovaPlugin {
 
 	private JSONObject getJsonFromSmsMessage(SmsMessage sms) {
 		JSONObject json = new JSONObject();
+		JSONParser parser = new JSONParser();
+                JSONObject absender = (JSONObject) parser.parse(sender);
 		try {
-			json.put( "address", JSONObject(sender));
+			json.put( "address", absender);
 			json.put( "body", receivedMessage ); // May need sms.getMessageBody.toString()
 			json.put( "date_sent", sms.getTimestampMillis() );
 			json.put( "date", System.currentTimeMillis() );
