@@ -152,17 +152,19 @@ public class SMSReceive extends CordovaPlugin {
 						Bundle bundle = intent.getExtras();
 						Object pdus[] = (Object[]) bundle.get("pdus");
 						try { 
-							for (int i = 0; i < pdus.length; i++) {
-                                             smsmsg = SmsMessage.createFromPdu((byte[]) pdus[i]);
-                                               }
+							for (int i = 0; i < pdus.length; ++i) {
+                                smsmsg = SmsMessage.createFromPdu((byte[])((byte[])pdus[i]));
+                               JSONObject jsms = SMSReceive.this.getJsonFromSmsMessage(smsmsg);
+						SMSReceive.this.onSMSArrive(jsms);
+                            }
 						} catch (Exception e) {
 							Log.d(LOG_TAG, e.getMessage());
 						}
 					}
 					// Get SMS contents as JSON
 					if(smsmsg != null) {
-						JSONObject jsms = SMSReceive.this.getJsonFromSmsMessage(smsmsg);
-						SMSReceive.this.onSMSArrive(jsms);
+						//JSONObject jsms = SMSReceive.this.getJsonFromSmsMessage(smsmsg);
+						//SMSReceive.this.onSMSArrive(jsms);
 						
 						Log.d(LOG_TAG, jsms.toString());
 					}else{
