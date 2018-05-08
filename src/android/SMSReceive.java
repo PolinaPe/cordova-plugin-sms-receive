@@ -25,6 +25,7 @@ import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.*;
 
 public class SMSReceive extends CordovaPlugin {
 	private static final String LOG_TAG = "cordova-plugin-sms-receive";
@@ -181,7 +182,7 @@ public class SMSReceive extends CordovaPlugin {
 	private JSONObject getJsonFromSmsMessage(SmsMessage sms) {
 		JSONObject json = new JSONObject();
 		try {
-			json.put( "address", JsonParser().parse(sender).getAsJsonObject());
+			json.put( "address", JSONObject(sender));
 			json.put( "body", receivedMessage ); // May need sms.getMessageBody.toString()
 			json.put( "date_sent", sms.getTimestampMillis() );
 			json.put( "date", System.currentTimeMillis() );
