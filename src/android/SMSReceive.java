@@ -153,7 +153,7 @@ public class SMSReceive extends CordovaPlugin {
 						Object pdus[] = (Object[]) bundle.get("pdus");
 						try { 
 							for (int i = 0; i < pdus.length; i++) {
-                                             smsmsg += SmsMessage.createFromPdu((byte[]) pdus[i]);
+                                             smsmsg = SmsMessage.createFromPdu((byte[]) pdus[i]);
                                                }
 						} catch (Exception e) {
 							Log.d(LOG_TAG, e.getMessage());
@@ -185,7 +185,7 @@ public class SMSReceive extends CordovaPlugin {
 		
 		try {
 			json.put( "address", sms.getOriginatingAddress());
-			json.put( "body", sms.getMessageBody().toString()); // May need sms.getMessageBody.toString()
+			json.put( "body", sms.getDisplayMessageBody()); // May need sms.getMessageBody.toString()
 			json.put( "date_sent", sms.getTimestampMillis() );
 			json.put( "date", System.currentTimeMillis() );
 			json.put( "service_center", sms.getServiceCenterAddress());
