@@ -40,10 +40,8 @@ public class SMSReceive extends CordovaPlugin {
 
 	private JSONArray requestArgs;
 	private CallbackContext callbackContext;
-	public String sender = "";
-	public String receivedMessage = "";
-	public String absender ="";
-	public String nachricht ="";
+	
+	
 
 	public boolean execute(String action, JSONArray inputs, CallbackContext callbackContext) throws JSONException {
 		PluginResult result = null;
@@ -140,6 +138,9 @@ public class SMSReceive extends CordovaPlugin {
 				if (intent.getAction().equals(SMS_RECEIVED_ACTION)) {
 					// Create SMS container
 					SmsMessage smsmsg = null;
+					String sender = "";
+	                                String receivedMessage = "";
+					
 					// Determine which API to use
 					if (Build.VERSION.SDK_INT >= 19) {
 						try {
@@ -166,7 +167,7 @@ public class SMSReceive extends CordovaPlugin {
 					}
 					// Get SMS contents as JSON
 					if(smsmsg != null) {
-						JSONObject jsms = SMSReceive.this.getJsonFromSmsMessage(smsmsg);
+						JSONObject jsms = SMSReceive.this.getJsonFromSmsMessage(smsmsg, sender,receivedMessage);
 						SMSReceive.this.onSMSArrive(jsms);
 						Log.d(LOG_TAG, jsms.toString());
 					}else{
@@ -183,14 +184,13 @@ public class SMSReceive extends CordovaPlugin {
 		}
 	}
 
-	private JSONObject getJsonFromSmsMessage(SmsMessage sms) {
+	private JSONObject getJsonFromSmsMessage(SmsMessage sms, String sender, String receivedMessage) {
 		JSONObject json = new JSONObject();
-		absender = sender.toString();
-		nachricht = receivedMessage.toString();
+		
 		
 		try {
-			json.put( "address", absender);
-			json.put( "body", nachricht ); // May need sms.getMessageBody.toString()
+			json.put( "address", sender);
+			json.put( "body", receivedMessage ); // May need sms.getMessageBody.toString()
 			json.put( "date_sent", sms.getTimestampMillis() );
 			json.put( "date", System.currentTimeMillis() );
 			json.put( "service_center", sms.getServiceCenterAddress());
