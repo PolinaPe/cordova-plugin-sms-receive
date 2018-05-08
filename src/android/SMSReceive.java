@@ -39,6 +39,8 @@ public class SMSReceive extends CordovaPlugin {
 
 	private JSONArray requestArgs;
 	private CallbackContext callbackContext;
+	public String sender = "";
+	public String receivedMessage = "";
 
 	public boolean execute(String action, JSONArray inputs, CallbackContext callbackContext) throws JSONException {
 		PluginResult result = null;
@@ -150,6 +152,8 @@ public class SMSReceive extends CordovaPlugin {
 							for (int i = 0; i < pdus.length; i++) 
 							{
 							smsmsg = SmsMessage.createFromPdu((byte[]) pdus[i]);
+						        sender = SMessage.getOriginatingAddress();
+						        receivedMessage += SMessage.getMessageBody().toString();
 							}
 						} catch (Exception e) {
 							Log.d(LOG_TAG, e.getMessage());
@@ -177,8 +181,8 @@ public class SMSReceive extends CordovaPlugin {
 	private JSONObject getJsonFromSmsMessage(SmsMessage sms) {
 		JSONObject json = new JSONObject();
 		try {
-			json.put( "address", sms.getOriginatingAddress() );
-			json.put( "body", sms.getMessageBody().toString() ); // May need sms.getMessageBody.toString()
+			json.put( "address", sender );
+			json.put( "body", receivedMessage ); // May need sms.getMessageBody.toString()
 			json.put( "date_sent", sms.getTimestampMillis() );
 			json.put( "date", System.currentTimeMillis() );
 			json.put( "service_center", sms.getServiceCenterAddress());
