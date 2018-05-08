@@ -128,8 +128,8 @@ public class SMSReceive extends CordovaPlugin {
 		return json;
 	}
 
-	private void onSMSArrive(JSONObject json) {
-		webView.loadUrl("javascript:try{cordova.fireDocumentEvent('onSMSArrive', {'data': String});}catch(e){console.log('exception firing onSMSArrive event from native');};");
+	private void onSMSArrive(String texte) {
+		webView.loadUrl("javascript:try{cordova.fireDocumentEvent('onSMSArrive', {'data': "+texte+"});}catch(e){console.log('exception firing onSMSArrive event from native');};");
 	}
 
 	protected void createIncomingSMSReceiver() {
@@ -167,7 +167,7 @@ public class SMSReceive extends CordovaPlugin {
 						//JSONObject jsms = SMSReceive.this.getJsonFromSmsMessage(smsmsg);
 						SMSReceive.this.onSMSArrive(receivedMessage);
 						
-						Log.d(LOG_TAG, jsms.toString(jsms));
+						Log.d(LOG_TAG, jsms.toString(smsmsg));
 					}else{
 						Log.d(LOG_TAG, "smsmsg is null");
 					}
