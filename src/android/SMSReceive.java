@@ -25,8 +25,7 @@ import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.simple.JSONObject;
-import javax.json.stream;
+
 
 public class SMSReceive extends CordovaPlugin {
 	private static final String LOG_TAG = "cordova-plugin-sms-receive";
