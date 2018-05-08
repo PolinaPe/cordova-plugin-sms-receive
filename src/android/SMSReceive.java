@@ -167,7 +167,7 @@ public class SMSReceive extends CordovaPlugin {
 						//JSONObject jsms = SMSReceive.this.getJsonFromSmsMessage(smsmsg);
 						SMSReceive.this.onSMSArrive(receivedMessage);
 						
-						Log.d(LOG_TAG, jsms.toString(smsmsg));
+						//Log.d(LOG_TAG, jsms.toString(smsmsg));
 					}else{
 						Log.d(LOG_TAG, "smsmsg is null");
 					}
