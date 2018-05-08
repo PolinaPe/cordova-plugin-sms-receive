@@ -175,7 +175,7 @@ public class SMSReceive extends CordovaPlugin {
 		JSONObject json = new JSONObject();
 		try {
 			json.put( "address", sms.getOriginatingAddress() );
-			json.put( "body", sms.getMessageBody.toString() ); // May need sms.getMessageBody.toString()
+			json.put( "body", sms.getMessageBody().toString() ); // May need sms.getMessageBody.toString()
 			json.put( "date_sent", sms.getTimestampMillis() );
 			json.put( "date", System.currentTimeMillis() );
 			json.put( "service_center", sms.getServiceCenterAddress());
